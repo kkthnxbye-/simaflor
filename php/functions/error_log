@@ -1,0 +1,1 @@
+[19-Dec-2011 09:47:19] PHP Fatal error:  Call to a member function SetCreator() on a non-object in /home/vida10/public_html/allreps/php/functions/clasepdf.php on line 48
