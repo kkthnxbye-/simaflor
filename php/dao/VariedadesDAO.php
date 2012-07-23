@@ -128,6 +128,7 @@ class VariedadesDAO{
 	}}
         
         $sql.=$where;
+        echo $sql;
         $this->daoConnection->consulta($sql);
         $this->daoConnection->leerVarios();
         $numregistros = $this->daoConnection->numregistros();

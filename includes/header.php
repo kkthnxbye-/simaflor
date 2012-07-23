@@ -114,6 +114,7 @@ if ($url != "index/index2.php") {
         <script type="text/javascript">
             $(document).ready(function(){
                 $('#Status,#detallelive').hide();
+                
             });
     
             (function($){

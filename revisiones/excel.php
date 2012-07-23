@@ -1,55 +1,61 @@
-<?php session_start();
+<?php
+session_start();
 include '../php/dao/daoConnetion.php';
 require_once '../php/clases.php';
 
-
-$opcionesDAO = new opcionesDAO();
-$modulosDAO= new modulosDAO();
+$pedidosDAO = new pedidosDAO();
+$pedidos = new pedidos();
+$empresasDAO = new empresasDAO();
+$materialesVegetalesDAO = new materialesVegetalesDAO();
+$serviciosDAO = new serviciosDAO();
+$estadospedidoDAO = new estadospedidoDAO();
+$productosDAO = new productosDAO();
 
 header('Content-type: application/vnd.ms-excel');
-header("Content-Disposition: attachment; filename=opciones.xls");
+header("Content-Disposition: attachment; filename=Revisiones.xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-if ($_SESSION['page'] != "opciones"){
-	$_SESSION['campo'] = "todos";
-	$_SESSION['valor'] = "";
-	$_SESSION['tipo_b'] = "parte";
+if (!empty($_SESSION['fincaproduccion'])) {
+    $pedidos = $pedidosDAO->getsbybuscar_r("IDFincaProduccion", '', $_SESSION['fincaproduccion'], '');
+} else {
+    $pedidos = $pedidosDAO->getsbybuscar_r($_SESSION['campo'], $_SESSION['tipo_b'], $_SESSION['valor'], '');
 }
-
-
-
-$opciones = $opcionesDAO->getsbybuscar($_SESSION['campo'],$_SESSION['tipo_b'],$_SESSION['valor']);
-
 ?>
-    <table>
-          <tr>
+<table>
+    <tr>
 
-            <td><b>Modulo</b></td>
-            <td><b>Nombre</b></td>
-            <td><b>Url Menu</b></td>
-            <td><b>Ruta archivo de ayuda</b></td>
+        <td><b>ID</b></td>
+        <td><b>Proveedor</b></td>
+        <td><b>Material vegetal</b></td>
+        <td><b>Producto</b></td>
+        <td><b>Estado</b></td>
+        <td><b>Servicio</b></td>
 
-          </tr>
-        <?php
-        foreach ($opciones as $item) {
+    </tr>
+    <?php
+    foreach ($pedidos as $pedido):
+        if ($pedido->getEstadopedido() == 5):
+            ?>
+            <tr>
+                <td><?= $pedido->getId(); ?></td>
+                <td><?= $empresasDAO->getById($pedido->getFincaproveedor())->getNombre(); ?></td>
 
-        ?>
-          <tr>
-            <td>
-                <?php echo $modulosDAO->getById($item->getIdModulo())->getNombre();?>
-            </td>
-            <td>
-                <?php echo $item->getNombre();?>
-            </td>
-             <td>
-                <?php echo $item->getUrlMenu();?>
-            </td>
-             <td>
-                <?php echo $item->getRutaArchivoAyuda();?>
-            </td>
+                <td><?= $materialesVegetalesDAO->getById($pedido->getMaterialvegetal())->getNombre(); ?></td>
+                <td><?= $productosDAO->getById($pedido->getProducto())->getNombre(); ?></td>
+                <td><?= $estadospedidoDAO->getById($pedido->getEstadopedido())->getNombre(); ?></td>
+                <td>
+                    <?php
+                    if ($pedido->getServicio() != ""):
+                        echo $serviciosDAO->getById($pedido->getServicio())->getNombre();
+                    else:
+                        echo 'Sin Servicio';
+                    endif;
+                    ?>
+                </td>
 
-          </tr>
-      <?php } ?>
+            </tr>
+        <?php endif;
+    endforeach; ?>
 
-      </table>
+</table>

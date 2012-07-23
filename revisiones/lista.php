@@ -105,17 +105,21 @@ if (!empty($_SESSION['fincaproduccion'])) {
             </div>
             <script>
                 function getValues(value){
+                    
                     if(value != 'todos'){
+                        
                         $.ajax({
-                            url:'../pedidosInternoPm/makeDrop.php',
+                            url:'../pedidosInternoPM/makeDrop.php',
                             type:'POST',
                             data:{
                                 'value_':value
                             },
                             success:function(data){
+                                
                                 $('#valor').html(data);
                                 $('#valorS').show();
                                 $('#valor').show();
+                                
                             }
                         });
                     }else{
@@ -128,7 +132,6 @@ if (!empty($_SESSION['fincaproduccion'])) {
                     Campo <select name="campo" id="campo" class="medium" onchange="getValues(this.value)">
                         <option value="todos" <?php if ($_SESSION['campo'] == 'todos') { ?> selected="selected"<?php } ?>>Todos</option>
                         <option value="IDFincaProveedor" <?php if ($_SESSION['campo'] == 'IDFincaProveedor') { ?> selected="selected"<?php } ?>>Proveedor</option>
-                        <option value="IDFincaCliente" <?php if ($_SESSION['campo'] == 'IDFincaCliente') { ?> selected="selected"<?php } ?>>Cliente</option>
                         <option value="IDMaterialVegetal" <?php if ($_SESSION['campo'] == 'IDMaterialVegetal') { ?> selected="selected"<?php } ?>>Material Vegetal</option>
                         <option value="IDProducto" <?php if ($_SESSION['campo'] == 'IDProducto') { ?> selected="selected"<?php } ?>>Producto</option>
                         <option value="IDEstadoPedidoPM" <?php if ($_SESSION['campo'] == 'IDEstadoPedidoPM') { ?> selected="selected"<?php } ?>>Estado</option>
@@ -137,8 +140,8 @@ if (!empty($_SESSION['fincaproduccion'])) {
 
                     <input type='hidden' name='tipo_b' id='tipo_b' value='parte_' />
                     <span id="valorS">Valor</span>
+                    
                     <select id="valor" name="valor">
-
                     </select>
                     <input type="hidden" name="page" id="page" value="pedidosPM" />
 
@@ -193,7 +196,8 @@ if (!empty($_SESSION['fincaproduccion'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($pedidos as $pedido):
+                    <?php
+                    foreach ($pedidos as $pedido):
                         if ($pedido->getEstadopedido() == 5):
                             ?>
                             <tr class="odd gradeX">
@@ -214,7 +218,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
                                 </td>
                                 <td>
 
-                                    <a href="revision_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar">
+                                    <a href="revision_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar" id="id_popup">
                                         <div class="icon_botn">
                                             <img src="../images/page_white_go.png" width="16" height="16" />
                                         </div> 
@@ -222,7 +226,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
                                     </a>
 
         <?php if ($modificar == 1): ?>
-                                        <a href="revision_editar.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar">
+                                        <a href="revision_editar.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar" id="id_popup">
                                             <div class="icon_botn">
                                                 <img src="../images/pencil.png" width="16" height="16" />
                                             </div> 
@@ -231,7 +235,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
 
         <?php endif; ?>
 
-                                    <a href="notas_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar">
+                                    <a href="notas_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar" id="id_popup">
                                         <div class="icon_botn">
                                             <img src="../images/editar.png" height="20" />
                                         </div> 
@@ -243,8 +247,9 @@ if (!empty($_SESSION['fincaproduccion'])) {
                                 </td>
                             </tr>
 
-    <?php endif;
-endforeach; ?>
+                        <?php endif;
+                    endforeach;
+                    ?>
 
                 </tbody>
             </table>
@@ -253,7 +258,7 @@ endforeach; ?>
 </div> <!-- #content -->	
 
 <script>
-    $('.btn_editar').openDOMWindow({ 
+    $('#id_popup').openDOMWindow({ 
              height:500, 
              width: 1150, 
              positionType:'absolute', 

@@ -236,6 +236,48 @@ t.id,i.id,t.suma
        $sql = "UPDATE MovimientosInventarioPM SET $campo = ".$valor." WHERE ID = ".$id;
        $this->daoConnection->consulta($sql);
     }
+    
+    
+    
+    
+    function getSearchFactu($tipo,$idTipoMovimiento,$fecha,$cliente) {
+
+        $sql = "SELECT * FROM MovimientosInventarioPM";
+        
+        if($tipo == ""){
+            $sql.= " WHERE IDTipoMovimientoInventarioPM = $idTipoMovimiento AND
+                     FechaRegistro = '$fecha' AND
+                     IDCliente = $cliente";
+        }
+        
+        
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        $lista = array();
+
+        if ($numregistros == 0) {
+            return $lista;
+        }
+
+        for ($i = 0; $i < $numregistros; $i++) {
+            $j = 0;
+            $newMovimientoInventario = new movimientosInventarioPM();
+            $newMovimientoInventario->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdTipoMovimientoInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdCliente($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setCantidad($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setFechaRegistro($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdDocumentoInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setHabilitado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+
+            $lista[$i] = $newMovimientoInventario;
+        }
+        return $lista;
+    }
 
 }
 

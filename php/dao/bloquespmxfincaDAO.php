@@ -133,6 +133,7 @@ class bloquespmxfincaDAO {
     function getsbybuscar($finca, $campo, $tipob, $valor) {
         $sql = 'SELECT * from BloquesPMXFinca ';
         $where = ' where 1=1 and IDFinca = ' . $finca . ' ';
+        if($campo != '' && $tipob != '' && $valor != ''){
         if ($campo == "todos") {
 
             if ($tipob == "parte") {
@@ -147,8 +148,9 @@ class bloquespmxfincaDAO {
                 $where .= ' and ' . $campo . ' = "' . $valor . '"';
             }
         }
+        }
         $sql.=$where;
-
+        //echo $sql;
         $this->daoConnection->consulta($sql);
         $this->daoConnection->leerVarios();
         $numregistros = $this->daoConnection->numregistros();

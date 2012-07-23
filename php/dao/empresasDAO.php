@@ -57,7 +57,7 @@ class empresasDAO {
 
     function getById($id) {
 
-        $sql = 'SELECT * from Empresas WHERE ID = "' . $id . '" ';
+        $sql = "SELECT * from Empresas WHERE ID = $id";
 
         $this->daoConnection->consulta($sql);
         $this->daoConnection->leerVarios();

@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>03_pedidos</title>	
+	
+	<link rel="stylesheet" href="./css/screen.css" type="text/css" media="screen" title="no title" charset="utf-8" />	
+	<link rel="stylesheet" href="./css/plugin.css" type="text/css" media="screen" title="no title" charset="utf-8" />	
+	<link rel="stylesheet" href="./css/custom.css" type="text/css" media="screen" title="no title" charset="utf-8" />	
+		
+</head>
+
+<body>
+	
+<div id="wrapper">
+	
+	<div id="header">
+    <div class="logo"><img src="images/logo.png" width="239" height="80" /></div>
+	  <div id="info">
+      <div class="info_user"><b>Usuario:</b> Harold Arroyo</div>
+      <div class="info_date">
+         <form action="#" method="post" class="form label-inline" aling="left">
+      <div class="field">
+				<label for="type">Finca</label>
+								<select size="1" class="medium" id="type">
+								  <option>Admin</option>
+								  <option>Admin 01</option>
+
+									<optgroup label="Type of Whatever">
+										<option selected="selected">Corporate</option>
+										<option>Individual</option>
+				
+									</optgroup>
+								</select>
+			  </div>
+                </form>
+      </div>
+      
+     <div class="info_out"><button class="btn btn-black">Salir</button></div>
+      </div>
+   		  
+			
+			
+		</div> 
+		<!-- #info -->
+				
+	</div> <!-- #header -->	
+	
+	
+		<div id="nav">	
+
+			<ul class="mega-container mega-grey">
+	
+				<li class="mega">
+					<a href="index2.html" class="mega-link">Maestros</a>	
+				</li>
+				
+				<li class="mega">				
+					<a href="widgets.html" class="mega-link">Plantas Madres</a>			
+				</li>
+                
+                <li class="mega">				
+					<a href="widgets.html" class="mega-link">Producción</a>			
+				</li>
+                
+                <li class="mega">				
+					<a href="widgets.html" class="mega-link">Admin</a>			
+				</li>
+                
+                 <li class="mega">				
+					<a href="widgets.html" class="mega-link">Sistema</a>			
+				</li>
+			</ul>
+		</div> 
+		<!-- #nav -->
+	
+	
+	
+	<div id="content" class="xfluid">
+		
+	  <div class="portlet x12">
+		<div class="portlet-header"><h4>Finca: Jardines Bacata</h4> 
+          <div class="help"><a href="" class="btn_black">
+                <div class="icon_botn"><img src="images/icon_help.png" width="22" height="23" /></div> 
+                Ayuda</a></div>
+            
+            </div>
+			
+			<div class="portlet-content"><a name="plugin"></a>				
+				<div class="user_tit">
+				  <h2>PEDIDOS</h2></div>
+                <div class="btn_left"><a href="" class="btn_editar">
+                    <div class="icon_botn"><img src="images/plus.png" width="22" height="23" /></div> 
+                    Nuevo</a></div>
+              <div class="btn_right">
+                <a href="" class="btn_editar">
+                <div class="icon_botn"><img src="images/icon_export.png" width="22" height="23" /></div> 
+                Exportar (CSV)</a>
+              <br/><br/>
+              </div>
+              <div class="line"></div>	
+              
+             <div class="clear"></div>
+			  <a href="" class="btn_editar l">
+			  <div class="icon_botn"><img src="images/icon_null.png" width="22" height="23" /></div>
+                    Limpiar Filtro
+             </a>
+                <br/> 
+                <div class="filtros">
+                <form action="#" method="post" class="form label-inline" aling="left">
+      <div class="field_filtros">
+      
+
+<div class="filtro_left">
+                                <label for="type">Campo </label>
+								<select size="1" class="medium" id="type">
+								  <option>Admin</option>
+								  <option>Admin 01</option>
+
+									<optgroup label="Type of Whatever">
+										<option selected="selected">Corporate</option>
+										<option>Individual</option>
+				
+									</optgroup>
+								</select>
+                                </div>
+                                
+                                
+                                <div class="filtro_left">
+                                <label for="type">Tipo de busqueda</label>
+								<select size="1" class="medium" id="type">
+								  <option>Admin</option>
+								  <option>Admin 01</option>
+
+									<optgroup label="Type of Whatever">
+										<option selected="selected">Corporate</option>
+										<option>Individual</option>
+				
+									</optgroup>
+								</select>
+                                </div>
+                                
+            <div class="filtro_buscar">
+            <label for="type"></label>
+                                <div id="example_filter" class="dataTables_filter" style="width:280px; margin-top:10px">
+                                  <input type="text" value="ingresa un valor" />
+                                <a href="" class="btn_black" style="margin-top:2px; padding-top:2px; padding-bottom:2px; margin-left:4px">Buscar</a>
+              </div>
+                                </div>
+                                
+                              
+                                
+			  </div>
+              
+              
+				
+			 
+              
+              
+                </form>
+                </div>
+                
+              
+              
+              <table cellpadding="0" cellspacing="0" border="0" class="display" rel="datatable" id="example">
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>Proveedor</th>
+							<th>Cliente</th>
+							<th>Material Vegetal</th>
+							<th>Producto</th>
+                            <th>Estado</th>
+                            <th>Servicios</th>
+                            <th>Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="odd gradeX">
+							<td>Trident</td>
+							<td>Internet
+								 Explorer 4.0</td>
+							<td>Win 95+</td>
+							<td class="center"> 4</td>
+							<td class="center">X</td>
+                            <td>Borrador</td>
+							<td class="center"> 4</td>
+							<td class="center"> 
+                            <a href="" class="btn_editar"><div class="icon_botn"><img src="images/pencil.png" width="16" height="16" /></div> Editar</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_copy.png" width="16" height="16" /></div> 
+                            Detalles</a>
+                            <a href="" class="btn_black">
+                            <div class="icon_botn"><img src="images/icon_sig.png" width="22" height="23" /></div> 
+                            Sig. Estado</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_go.png" width="16" height="16" /></div> 
+                            Adjuntar</a></td>
+						</tr>
+						<tr class="even gradeC">
+							<td>Trident</td>
+							<td>Internet
+								 Explorer 5.0</td>
+							<td>Win 95+</td>
+							<td class="center">5</td>
+							<td class="center">C</td>
+                            <td>Win 95+</td>
+							<td class="center"> 4</td>
+							<td class="center"> 
+                            <a href="" class="btn_editar"><div class="icon_botn"><img src="images/pencil.png" width="16" height="16" /></div> Editar</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_copy.png" width="16" height="16" /></div> 
+                            Detalles</a>
+                            <a href="" class="btn_black">
+                            <div class="icon_botn"><img src="images/icon_sig.png" width="22" height="23" /></div> 
+                            Sig. Estado</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_go.png" width="16" height="16" /></div> 
+                            Adjuntar</a></td>
+						</tr>
+						<tr class="odd gradeA">
+							<td>Trident</td>
+							<td>Internet
+								 Explorer 5.5</td>
+							<td>Win 95+</td>
+							<td class="center">5.5</td>
+							<td class="center">A</td>
+                            <td>Win 95+</td>
+							<td class="center"> 4</td>
+							<td class="center"> 
+                            <a href="" class="btn_editar"><div class="icon_botn"><img src="images/pencil.png" width="16" height="16" /></div> Editar</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_copy.png" width="16" height="16" /></div> 
+                            Detalles</a>
+                            <a href="" class="btn_black">
+                            <div class="icon_botn"><img src="images/icon_sig.png" width="22" height="23" /></div> 
+                            Sig. Estado</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_go.png" width="16" height="16" /></div> 
+                            Adjuntar</a></td>
+						</tr>
+						<tr class="even gradeA">
+							<td>Trident</td>
+							<td>Internet
+								 Explorer 6</td>
+							<td>Win 98+</td>
+							<td class="center">6</td>
+							<td class="center">A</td>
+                            <td>Win 95+</td>
+							<td class="center"> 4</td>
+							<td class="center"> 
+                            <a href="" class="btn_editar"><div class="icon_botn"><img src="images/pencil.png" width="16" height="16" /></div> Editar</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_copy.png" width="16" height="16" /></div> 
+                            Detalles</a>
+                            <a href="" class="btn_black">
+                            <div class="icon_botn"><img src="images/icon_sig.png" width="22" height="23" /></div> 
+                            Sig. Estado</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_go.png" width="16" height="16" /></div> 
+                            Adjuntar</a></td>
+						</tr>
+						<tr class="odd gradeA">
+							<td>Trident</td>
+							<td>Internet Explorer 7</td>
+							<td>Win XP SP2+</td>
+							<td class="center">7</td>
+							<td class="center">A</td>
+                            <td>Win 95+</td>
+							<td class="center"> 4</td>
+							<td class="center"> 
+                            <a href="" class="btn_editar"><div class="icon_botn"><img src="images/pencil.png" width="16" height="16" /></div> Editar</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_copy.png" width="16" height="16" /></div> 
+                            Detalles</a>
+                            <a href="" class="btn_black">
+                            <div class="icon_botn"><img src="images/icon_sig.png" width="22" height="23" /></div> 
+                            Sig. Estado</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_go.png" width="16" height="16" /></div> 
+                            Adjuntar</a></td>
+						</tr>
+						<tr class="even gradeA">
+							<td>Trident</td>
+							<td>AOL browser (AOL desktop)</td>
+							<td>Win XP</td>
+							<td class="center">6</td>
+							<td class="center">A</td>
+                            <td>Win 95+</td>
+							<td class="center"> 4</td>
+							<td class="center"> 
+                            <a href="" class="btn_editar"><div class="icon_botn"><img src="images/pencil.png" width="16" height="16" /></div> Editar</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_copy.png" width="16" height="16" /></div> 
+                            Detalles</a>
+                            <a href="" class="btn_black">
+                            <div class="icon_botn"><img src="images/icon_sig.png" width="22" height="23" /></div> 
+                            Sig. Estado</a>
+                            <a href="" class="btn_editar">
+                            <div class="icon_botn"><img src="images/page_white_go.png" width="16" height="16" /></div> 
+                            Adjuntar</a></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				
+				
+				
+				
+				
+				
+			
+			</div>
+		</div>
+		
+
+		
+	</div> <!-- #content -->
+	
+	
+	<div id="footer">
+		
+		<p style="font-family: arial;"><a href="http://imaginamos.com/" target="_blank"><font color="#666666" size="1" style="text-decoration: none">Diseño Web:</font></a><a href="http://imaginamos.com/" target="_blank"><font color="#666666" size="1"> Imagin</font><span><font color="#0099CC" size="1">a</font></span><font color="#666666" size="1">mos.com</font></a></p>
+		
+	</div> <!-- #footer -->
+	
+</div> <!-- #wrapper -->
+
+<script  type="text/javascript" src="js/jquery/jquery.1.4.2.min.js"></script>
+<script  type="text/javascript" src="js/slate/slate.js"></script>
+<script  type="text/javascript" src="js/slate/slate.portlet.js"></script>
+<script  type="text/javascript" src="js/plugin.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+$(function () 
+{
+	slate.init ();
+	slate.portlet.init ();	
+});
+</script>
+	
+</body>
+
+</html>
