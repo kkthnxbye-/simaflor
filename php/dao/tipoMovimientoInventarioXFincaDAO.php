@@ -6,7 +6,7 @@
  * @author Brayan Acebo
  */
 
-class TiposMovimientoInventarioXFincaDAO {
+class TiposMovimientoInventarioXFincaDAO_ {
 
     public $daoConnection;
 

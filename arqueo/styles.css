@@ -1,0 +1,35 @@
+root { 
+   display: block;
+}
+
+body{
+   font-family: arial;
+   font-size: 11px;
+}
+
+strong{
+   color:red
+}
+
+span{
+   color:red;
+   font-size: 11px;
+}
+
+table,div{
+   font-size: 11.5px;
+}
+
+a,.aslink{
+   color: black;
+   padding: 0.7em;
+   background: #E0E0E0;
+   text-decoration: none;
+   border: none;
+   font-size: 10px;
+}
+
+a:hover,.aslink:hover{
+   background: #E0E0E0;
+   cursor: pointer;
+}

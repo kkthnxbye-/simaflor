@@ -1,0 +1,63 @@
+root { 
+   display: block;
+}
+
+.caja{
+   padding: 0.5em;
+}
+
+.caja label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+margin-right: 5px;
+}
+
+.caja select,input[type=text]{
+   width: 200px;
+}
+
+.caja label strong{
+   color: red;
+}
+
+.caja_buscar{
+   /*border: 1px solid;*/
+}
+
+.caja_buscar:after {
+   content: '.';
+   visibility: hidden;
+   display: block;
+   clear: both;
+}
+
+.caja_buscar label{
+   float: left;
+   display: inline;
+   font-weight: bold;
+}
+
+.caja_buscar select{
+   float: left;
+}
+
+.caja_buscar div.caja-child{
+   float: left;
+   margin-right: 10px;
+}
+
+div.caja-child button{
+   position: relative;
+   top: -5px;
+   margin-left: 20px;
+}
+#revision{
+   border: 1px solid silver;
+   border-radius: 5px;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   padding: 10px;
+}

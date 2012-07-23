@@ -11,6 +11,12 @@ $pass = $_REQUEST['password'];
 
 $location = "location: ../../index.php?a=1";
 $si = "location: ../../index/index2.php";
+if(isset($_POST['arqueo'])){
+   $location = "location: ../../arqueo/index.php?a=1";
+   $si = "location: ../../arqueo/lista.php";
+}
+
+
 if ($login == "" || $pass == "") {
     header($location . "&error1");
     exit;
@@ -30,6 +36,7 @@ if (($usuario->getContrasena() == $pass) && ($usuario->getLogin() == $login) && 
     exit;
 }
 //everything bad!
+
 header($location . "&error2");
 exit;
 ?>

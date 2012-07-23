@@ -4,7 +4,6 @@ class Revisiones{
     
     private $id;
     private $id_pedido_pm;
-    private $id_tipo_unidad;
     private $cantidad;
     private $esta_bueno;
     private $desechado;
@@ -12,11 +11,14 @@ class Revisiones{
     private $id_operario;
     private $id_usuario;
     private $habilitado;
+    private $id_tipo_unidad_pm;
+    private $id_variedad;
+    private $id_grado;
+    private $id_inventario_pm;
     
     function __construct() {
         $this->id = 0;
         $this->id_pedido_pm = 0;
-        $this->id_tipo_unidad = 0;
         $this->cantidad = 0;
         $this->esta_bueno = 0;
         $this->desechado = 0;
@@ -24,8 +26,43 @@ class Revisiones{
         $this->id_operario = 0;
         $this->id_usuario = 0;
         $this->habilitado = 0;
+        $this->id_tipo_unidad_pm = 0;
+        $this->id_variedad = 0;
+        $this->id_grado = 0;
+        $this->id_inventario_pm = 0;
     }
     
+    public function getIdInventarioPM(){
+        return $this->id_inventario_pm;
+    }
+    
+    public function setIdInventarioPM($id_inventario_pm){
+        $this->id_inventario_pm = $id_inventario_pm;
+    }
+    
+    public function getIdGrado(){
+        return $this->id_grado;
+    }
+    
+    public function setIdGrado($id_grado){
+        $this->id_grado = $id_grado;
+    }
+    
+    public function getIdVariedad(){
+        return $this->id_variedad;
+    }
+    
+    public function setIdVariedad($id_variedad){
+        $this->id_variedad = $id_variedad;
+    }
+    
+    public function getIdTipoUnidadPM(){
+        return $this->id_tipo_unidad_pm;
+    }
+    
+    public function setIdTipoUnidadPM($id_tipo_unidad_pm){
+        $this->id_tipo_unidad_pm = $id_tipo_unidad_pm;
+    }
     
     public function getHabilitado(){
         return $this->habilitado;
@@ -89,14 +126,6 @@ class Revisiones{
     
     public function setIdPedidoPm($id_pedido_pm){
         $this->id_pedido_pm = $id_pedido_pm;
-    }
-    
-    public function getIdTipoUnidad(){
-        return $this->id_tipo_unidad;
-    }
-    
-    public function setIdTipoUnidad($id_tipo_unidad){
-        $this->id_tipo_unidad = $id_tipo_unidad;
     }
 
     public function getCantidad(){

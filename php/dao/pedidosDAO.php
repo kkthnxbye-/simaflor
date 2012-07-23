@@ -360,6 +360,72 @@ class pedidosDAO {
         }
         return $lista;
     }
+    
+    
+    
+    function getsbybuscar_r($campo, $tipob, $valor, $idUsuario) {
+        $sql = 'SELECT * from PedidosPM ';
+        $where = "WHERE 1=1 AND (IDEstadoPedidoPM = 4 OR IDEstadoPedidoPM = 5) ";
+
+        if ($idUsuario != -10 && $idUsuario != '') {
+            $where.=" AND IDUsuario = $idUsuario";
+        }
+        if ($valor != "") {
+           if ($campo == "IDFincaProduccion") {
+                $where.=" AND IDFincaProduccion =  $valor";
+            } else {
+
+                if ($campo == "todos") {
+
+                    if ($tipob == "parte") {
+                        $where .= ' and (Nombre LIKE "%' . $valor . '%" OR UrlMenu LIKE "%' . $valor . '%")';
+                    } else {
+                        $where .= ' and (Nombre= "' . $valor . '" OR UrlMenu = "' . $valor . '")';
+                    }
+                } else {
+                    if ($tipob == "parte") {
+                        $where .= ' and ' . $campo . ' LIKE "%' . $valor . '%"';
+                    } else {
+                        $where .= ' and ' . $campo . ' = "' . $valor . '"';
+                    }
+                }
+            }
+        }
+
+        $sql.=$where;
+
+        //echo $sql;
+        
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        $lista = array();
+
+        if ($numregistros == 0) {
+            return $lista;
+        }
+
+        for ($i = 0; $i < $numregistros; $i++) {
+            $j = 0;
+            $pedido = new pedidos();
+            $pedido->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setFincacliente($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setServicio($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setMaterialvegetal($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setProducto($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setFincaProduccion($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setCiclo($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setEntregamaterial($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setFecha($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setFechaUltimoEstado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setEstadopedido($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $pedido->setFincaproveedor($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $lista[$i] = $pedido;
+        }
+        return $lista;
+    }
 
 }
 

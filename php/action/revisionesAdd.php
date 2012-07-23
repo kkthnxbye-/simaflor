@@ -32,15 +32,18 @@ $listadetalles = unserialize($_SESSION['lista_revisiones']);
 $new_pos = count($listadetalles);
 
 $detallepedido = new Revisiones();
+$detallepedido->setIdTipoUnidadPM($idTipoUnidad);
+$detallepedido->setIdVariedad($idVariedad);
+$detallepedido->setIdGrado($idGrado);
 $detallepedido->setCantidad($cantidad);
 $detallepedido->setEstaBueno($estaBueno);
-$detallepedido->setDesechado($reclamar);
-$detallepedido->setIdCausaNacional($causa);
-$detallepedido->setIdOperario($operario);
+$detallepedido->setDesechado($desechado);
+$detallepedido->setIdCausaNacional($idCausaNacional);
+$detallepedido->setIdOperario($idOperario);
 $detallepedido->setHabilitado($habilitado);
+
 
 $listadetalles[$new_pos] = $detallepedido;
 $_SESSION['lista_revisiones'] = serialize($listadetalles);
 
-echo "yeaaa";
 ?>

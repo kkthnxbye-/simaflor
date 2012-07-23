@@ -14,7 +14,7 @@
 
 
 
-<script  type="text/javascript" src="../js/jquery/jquery.1.4.2.min.js"></script>
+<!--<script  type="text/javascript" src="../js/jquery/jquery.1.4.2.min.js"></script>-->
 
 <script  type="text/javascript" src="../js/slate/slate.js"></script>
 

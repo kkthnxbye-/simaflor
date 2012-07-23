@@ -198,8 +198,11 @@ class enrutamientoprocesoDAO {
         $sql = "SELECT DISTINCT IDMaterialVegetal 
            FROM EnrutamientoProcesoPM 
            WHERE IDFinca = $IDFinca 
-            AND IDProducto = $IDProducto 
-            AND IDServicioPM = $IDServicioPM ";
+            AND IDProducto = $IDProducto";
+            if($IDServicioPM != ""){
+             $sql.="AND IDServicioPM = $IDServicioPM ";  
+            }
+            
         
         //echo $sql;
         $this->daoConnection->consulta($sql);
@@ -229,6 +232,36 @@ class enrutamientoprocesoDAO {
         return $lista;
     }
 
+    
+    function getIdTipoMovimientoInventarioPM($objEnrutamiento) {
+        
+        $newEnrutamientoProceso = new enrutamientoproceso();
+        $newEnrutamientoProceso = $objEnrutamiento;
+
+        $sql = "SELECT TOP 1 IDTipoMovimientoInventario 
+                FROM dbo.EnrutamientoProcesoPM 
+                WHERE IDFinca = " . $newEnrutamientoProceso->getIdFinca() . " 
+                AND IDProducto = " . $newEnrutamientoProceso->getIdProducto() . " 
+                AND IDServicioPM = " . $newEnrutamientoProceso->getIdServicio() . "  
+                AND IDMaterialVegetal = " . $newEnrutamientoProceso->getIdMaterialVegetal() . " 
+                AND IDProcesoOrigen = " . $newEnrutamientoProceso->getIdProcesoOrigen() . " 
+                AND IDProcesoDestino = " . $newEnrutamientoProceso->getIdProcesoDestino() . " 
+                ORDER BY ID ASC";
+
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        if ($numregistros == 0) {
+            return null;
+        }
+
+        $i = 0;
+        $j = 0;
+
+        return $this->daoConnection->ObjetoConsulta2[$i][$j++];
+        
+    }
 }
 
 ?>

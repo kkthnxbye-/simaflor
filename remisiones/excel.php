@@ -1,55 +1,44 @@
 <?php session_start();
-include '../php/dao/daoConnetion.php';
-require_once '../php/clases.php';
+include_once '../php/dao/daoConnection.php';
 
+include_once '../php/dao/remisionesDAO.php';
+include_once '../php/entities/remisiones.php';
 
-$opcionesDAO = new opcionesDAO();
-$modulosDAO= new modulosDAO();
+include_once '../php/dao/pedidosDAO.php';
+include_once '../php/entities/pedidos.php';
+
+include_once '../php/dao/VariedadesDAO.php';
+include_once '../php/entities/Variedades.php';
+
+$remisionesDAO = new remisionesDAO();
+$remisiones = new remisiones();
+$remisiones = $remisionesDAO->getAll($_SESSION['IDPedido']);
+
 
 header('Content-type: application/vnd.ms-excel');
-header("Content-Disposition: attachment; filename=opciones.xls");
+header("Content-Disposition: attachment; filename=Remisiones.xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-if ($_SESSION['page'] != "opciones"){
-	$_SESSION['campo'] = "todos";
-	$_SESSION['valor'] = "";
-	$_SESSION['tipo_b'] = "parte";
-}
 
-
-
-$opciones = $opcionesDAO->getsbybuscar($_SESSION['campo'],$_SESSION['tipo_b'],$_SESSION['valor']);
 
 ?>
     <table>
           <tr>
-
-            <td><b>Modulo</b></td>
-            <td><b>Nombre</b></td>
-            <td><b>Url Menu</b></td>
-            <td><b>Ruta archivo de ayuda</b></td>
-
-          </tr>
-        <?php
-        foreach ($opciones as $item) {
-
-        ?>
-          <tr>
-            <td>
-                <?php echo $modulosDAO->getById($item->getIdModulo())->getNombre();?>
-            </td>
-            <td>
-                <?php echo $item->getNombre();?>
-            </td>
-             <td>
-                <?php echo $item->getUrlMenu();?>
-            </td>
-             <td>
-                <?php echo $item->getRutaArchivoAyuda();?>
-            </td>
-
-          </tr>
-      <?php } ?>
+                  <th>ID</th>
+                  <th>No Remision</th>
+                  <th>Fecha Remision</th>
+                  <th>Fecha Registro</th>
+               </tr>
+        <?php foreach ($remisiones as $r): ?>
+                  <tr class="odd gradeX">
+                     <td><?php echo $r->getId(); ?></td>
+                     <td><?php echo $r->getNoRemision(); ?></td>
+                     <?php $fecha1 = explode(" ",$r->getFechaRemision()); ?>
+                     <td><?php echo $fecha1[0]; ?></td>
+                     <?php $fecha2 = explode(" ",$r->getFechaRegistro()); ?>
+                     <td><?php echo $fecha2[0]; ?></td>
+                  </tr>
+              <?php endforeach; ?> 
 
       </table>

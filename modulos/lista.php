@@ -200,7 +200,7 @@ $modulos = $modulosDAO->getsbybuscar($_SESSION['campo'], $_SESSION['tipo_b'], $_
              });
       });
 </script>
-</script>
+
 <div id="footer">
 
 

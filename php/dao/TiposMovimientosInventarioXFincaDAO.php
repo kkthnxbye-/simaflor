@@ -78,6 +78,35 @@ class TiposMovimientoInventarioXFincaDAO {
         $TiposMovimientoInventarioXFinca->setConsecutivo($this->daoConnection->ObjetoConsulta2[$i][$j++]);
         return $TiposMovimientoInventarioXFinca;
     }
+    
+    
+    function getByIdFinca($idFinca) {
+
+        $sql = "SELECT * from TiposMovimientoInventarioPMXFinca WHERE IDFinca = $idFinca";
+
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        $lista = array();
+
+        if ($numregistros == 0) {
+            return $lista;
+        }
+
+        for ($i = 0; $i < $numregistros; $i++) {
+            $j = 0;
+            $TiposMovimientoInventarioXFinca = new TiposMovimientoInventarioXFinca();
+            $TiposMovimientoInventarioXFinca->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $TiposMovimientoInventarioXFinca->setIdFinca($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $TiposMovimientoInventarioXFinca->setIdTipoMovimiento($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $TiposMovimientoInventarioXFinca->setEsPorDefecto($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $TiposMovimientoInventarioXFinca->setConsecutivo($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+
+            $lista[$i] = $TiposMovimientoInventarioXFinca;
+        }
+        return $lista;
+    }
 
     function Confirmas($finca, $tipo) {
         $sql = "SELECT * from TiposMovimientoInventarioPMXFinca WHERE IDFinca = $finca and  IDTipoMovimiento = $tipo";

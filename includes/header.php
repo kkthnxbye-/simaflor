@@ -81,6 +81,10 @@ if ($url != "index/index2.php") {
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
+        <!-- LightBox -->
+        <script src="../js/Dom.js" type="text/javascript"></script>
+
+        <!-- /LightBox -->
 
         <style type="text/css">
 
@@ -131,9 +135,24 @@ if ($url != "index/index2.php") {
                            },
                            mostrar : function(msg){
                                    var self = this;
+                                   this.obj.empty();
                                    this.obj.wrapInner(function(){
                                            return '<p>'+msg+'</p>';
                                    }).prependTo('body').fadeIn();
+                                   
+                                   this.t = setTimeout(function(){
+                                           self.obj.fadeOut('slow', function(){
+                                
+                                                   return $(this).remove();
+                                           });
+                                   }, 5000);
+                           },
+                    mostrar2 : function(msg){
+                                   var self = this;
+                        this.obj.empty();
+                                   this.obj.wrapInner(function(){
+                                           return '<p>'+msg+'</p>';
+                                   }).prependTo('#detalle').fadeIn();
                                    
                                    this.t = setTimeout(function(){
                                            self.obj.fadeOut('slow', function(){
@@ -189,6 +208,7 @@ if (isset($_REQUEST['inf'])) {
                 return false;
             }
         }
+        return true;
     }
             
     function confirmaFor(formObj) { 
@@ -213,7 +233,7 @@ if (isset($_REQUEST['inf'])) {
 
 
 
-
+<?php if ($_GET['banB'] != 7): ?>
         <div id="wrapper">
 
 
@@ -241,13 +261,13 @@ if (isset($_REQUEST['inf'])) {
                                 <!--                                <label for="type">Finca</label>
                                 
                                                                 <select size="1" name="finca" class="finca" id="finca" id="type" onchange="document.getElementById('form_fincas').submit();">
-                                                                    <option value="-1" <?php //if ($_SESSION['finca'] == "-1") {    ?> selected="selected"<?php //}    ?>>Seleccione</option>
+                                                                    <option value="-1" <?php //if ($_SESSION['finca'] == "-1") {      ?> selected="selected"<?php //}      ?>>Seleccione</option>
                                 <?php
 //foreach ($lista_dinc as $finc) {
 //if ($finc->getHabilitado() == 1) {
                                 ?>
                                 
-                                                                            <option value="<?php //echo $finc->getId();    ?>" <?php //if ($_SESSION['finca'] == $finc->getId()) {    ?> selected="selected"<?php //}    ?>><?php //echo $finc->getNombre()    ?></option>
+                                                                            <option value="<?php //echo $finc->getId();      ?>" <?php //if ($_SESSION['finca'] == $finc->getId()) {      ?> selected="selected"<?php //}      ?>><?php //echo $finc->getNombre()      ?></option>
                                 
                                 <?php
 //}
@@ -270,8 +290,10 @@ if (isset($_REQUEST['inf'])) {
                     </div>
 
 
+                    
+                        <div class="info_out"><button class="btn btn-black" onclick="location.href='../salir.php'">Salir</button></div>
+                    
 
-                    <div class="info_out"><button class="btn btn-black" onclick="location.href='../salir.php'">Salir</button></div>
 
                 </div>
 
@@ -282,13 +304,15 @@ if (isset($_REQUEST['inf'])) {
 
 
             </div> 
+            
+            
 
             <!-- #info -->
 
 
 
         </div> <!-- #header -->	
-
+<?php endif; ?>
         <!--<ul class="mega-container mega-grey">
                         <li class="mega">
                             <a href="#" class="mega-link">Maestros</a>					
@@ -308,11 +332,11 @@ if (isset($_REQUEST['inf'])) {
 //        $modulo = $obj_opt->getIdModulo();
 //        $obj_modulo = $modulosDAO->getById($modulo);
         ?>
-                                <li><a href="javascript:;" class="hasSub"><?php //echo $obj_modulo->getNombre()    ?></a>	
+                                <li><a href="javascript:;" class="hasSub"><?php //echo $obj_modulo->getNombre()      ?></a>	
                                    <ul>
         <?php //}  ?>
                                             <li>
-                                               <a href="../<?php //echo $obj_opt->getUrlMenu()  ?>">
+                                               <a href="../<?php //echo $obj_opt->getUrlMenu()    ?>">
         <?php //echo $obj_opt->getNombre() ?>
                                                </a>
                                             </li>
@@ -330,53 +354,59 @@ if (isset($_REQUEST['inf'])) {
         <?php $raizLista = $raiz->getByOrder(); ?>
         <?php //print_r($raizLista); ?>
 
-        <div id="nav">	
-            <ul class="mega-container mega-grey">
-                <?php foreach ($raizLista as $item): ?>
-                    <li class="mega">
-                        <a href="#" class="mega-link"><?php echo $item->getNombre(); ?></a>
-                        <div class="mega-content mega-menu ">
-                            <ul>
-                                <?php $modulos_ = $modulosDAO->getsByRaiz($item->getId()); ?>
-                                <?php //print_r($modulos_); ?>
-                                <?php foreach ($modulos_ as $item_): ?>
-                                    <li>
+        <?php if ($_GET['banB'] == 7): ?>
+            <div style="width: 100%;-border: 1px solid red;height: 10px;"></div>
+        <?php endif; ?>
+
+
+        <?php if ($_GET['banB'] != 7): ?>
+            <div id="nav">	
+                <ul class="mega-container mega-grey">
+                    <?php foreach ($raizLista as $item): ?>
+                        <li class="mega">
+                            <a href="#" class="mega-link"><?php echo $item->getNombre(); ?></a>
+                            <div class="mega-content mega-menu ">
+                                <ul>
+                                    <?php $modulos_ = $modulosDAO->getsByRaiz($item->getId()); ?>
+                                    <?php //print_r($modulos_); ?>
+                                    <?php foreach ($modulos_ as $item_): ?>
+                                        <li>
 
 
 
-                                        <a href="javascript:;" class="hasSub"><?php echo $item_->getNombre(); ?></a>
+                                            <a href="javascript:;" class="hasSub"><?php echo $item_->getNombre(); ?></a>
 
 
 
-                                        <?php $submodulos_ = $opcionesDAO->getByModulo($item_->getId()); ?>
-                                        <?php if (!empty($submodulos_)): ?>
-                                            <ul>
-                                                <?php foreach ($permisos as $permiso): ?>
-                                                    <?php foreach ($submodulos_ as $item__): ?>
-                                                        <?php if ($permiso->getIdOpcion() == $item__->getId()): ?>
-                                                            <li>
-                                                                <a href="../<?php echo $item__->getUrlMenu(); ?>">
-                                                                    <?php echo $item__->getNombre(); ?>
-                                                                </a>
-                                                            </li>
-                                                        
-                                                        <?php endif; ?>
+                                            <?php $submodulos_ = $opcionesDAO->getByModulo($item_->getId()); ?>
+                                            <?php if (!empty($submodulos_)): ?>
+                                                <ul>
+                                                    <?php foreach ($permisos as $permiso): ?>
+                                                        <?php foreach ($submodulos_ as $item__): ?>
+                                                            <?php if ($permiso->getIdOpcion() == $item__->getId()): ?>
+                                                                <li>
+                                                                    <a href="../<?php echo $item__->getUrlMenu(); ?>">
+                                                                        <?php echo $item__->getNombre(); ?>
+                                                                    </a>
+                                                                </li>
+
+                                                            <?php endif; ?>
 
 
 
+                                                        <?php endforeach; ?>
                                                     <?php endforeach; ?>
-                                                <?php endforeach; ?>
-                                            </ul>   
-                                        <?php endif; ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>	
-
+                                                </ul>   
+                                            <?php endif; ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>	
+        <?php endif; ?>
         </li>
 
         <?php
