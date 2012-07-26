@@ -1,6 +1,10 @@
 <?php include '../includes/header.php'; ?>
 <link rel="stylesheet" media="all" href="items.css" />
+
 <?php
+if (empty($_SESSION['fincaproduccion'])) {
+   header('Location: lista.php?clear');
+}
 
 include_once '../php/entities/productos.php';
 include_once '../php/dao/productosDAO.php';
@@ -23,7 +27,6 @@ include_once '../php/dao/ciclosDAO.php';
 include_once '../php/entities/bloquespmxfinca.php';
 include_once '../php/dao/bloquespmxfincaDAO.php';
 
-
 $pDAO = new productosDAO();
 $pXfDAO = new productosXFincaDAO();
 $mDAO = new materialesVegetalesDAO();
@@ -40,7 +43,7 @@ $t = new temporadas();
 $c = new ciclos();
 $bxf = new bloquespmxfinca();
 
-$pXf = $pXfDAO->getsbybuscar($_SESSION['fincaproduccion'], '','','');
+$pXf = $pXfDAO->getsbybuscar($_SESSION['fincaproduccion'], '', '', '');
 $m = $mDAO->gets();
 $b = $bDAO->gets();
 $t = $tDAO->gets();
@@ -58,169 +61,145 @@ $bxf = $bxfDAO->getsbybuscar($_SESSION['fincaproduccion'], $campo, $tipob, $valo
       <div class="portlet-content">
          <table>
             <tr>
-               <td>Producto</td>
+               <td>Producto <strong class="required">*</strong></td>
                <td>
                   <select id="producto">
                      <option value="">Seleccione</option>
-                     <?php foreach($pXf as $pxf): ?>
-                     <?php $p = $pDAO->getById($pxf->getIdProducto()); ?>
-                     <option value="<?php echo $p->getId(); ?>"><?php echo $p->getNombre(); ?></option>
+                     <?php foreach ($pXf as $pxf): ?>
+                        <?php $p = $pDAO->getById($pxf->getIdProducto()); ?>
+                        <option value="<?php echo $p->getId(); ?>"><?php echo $p->getNombre(); ?></option>
                      <?php endforeach; ?>
                   </select>
                </td>
 
-               <td>Material Vegetal</td>
+               <td>Material Vegetal <strong class="required">*</strong></td>
                <td>
                   <select id="vegetal">
                      <option value="">Seleccione</option>
-                     <?php foreach($m as $ms): ?>
-                     <option value="<?php echo $ms->getId(); ?>"><?php echo $ms->getNombre(); ?></option>
+                     <?php foreach ($m as $ms): ?>
+                        <option value="<?php echo $ms->getId(); ?>"><?php echo $ms->getNombre(); ?></option>
                      <?php endforeach; ?>
                   </select>
                </td>
 
-               <td>Variedad</td>
+               <td>Variedad <strong class="required">*</strong></td>
                <td>
                   <select id="variedad"></select>
                </td>
 
-               <td>Breeder</td>
+               <td>Breeder <strong class="required">*</strong></td>
                <td>
                   <select id="breeder">
                      <option value="">Seleccione</option>
-                     <?php foreach($b as $bs): ?>
-                     <option value="<?php echo $bs->getId(); ?>"><?php echo $bs->getNombre(); ?></option>
+                     <?php foreach ($b as $bs): ?>
+                        <option value="<?php echo $bs->getId(); ?>"><?php echo $bs->getNombre(); ?></option>
                      <?php endforeach; ?>
                   </select>
                </td>
             </tr>
             <tr>
-               <td>Proveedor</td>
+               <td>Proveedor <strong class="required">*</strong></td>
                <td>
                   <input type="text" name="proveedor" id="proveedor" />
-                  <input type="text" name="proveedor_" id="proveedor_" />
-                  <div class="show">
-                     Proveedor<br>
-                     Proveedor<br>
-                     Proveedor
-                  </div>
+                  <input type="hidden" name="proveedor_" id="proveedor_" />
+                  <div id="proveedor_show"></div>
                </td>
 
-               <td>Cliente</td>
+               <td>Cliente <strong class="required">*</strong></td>
                <td>
                   <input type="text" name="cliente" id="cliente" />
-                  <input type="text" name="cliente_" id="cliente_" />
-                  <div class="show">
-                     Clientes<br>
-                     Clientes<br>
-                     Clientes
-                  </div>
+                  <input type="hidden" name="cliente_" id="cliente_" />
+                  <div id="cliente_show"></div>
                </td>
 
+               <td>Fecha Siembra <strong class="required">*</strong></td>
+               <td><input type="text" name="fechaSiembra" id="fechaSiembra" /></td>
+               
                <td>Alias</td>
                <td><input type="text" name="alias" id="alias" /></td>
 
-               <td>Fecha Siembra </td>
-               <td><input type="text" name="fechaSiembra" id="fechaSiembra" /></td>
             </tr>
             <tr>
                <td>Temporada</td>
                <td>
                   <select id="temporada">
                      <option value="">Seleccione</option>
-                     <?php foreach($t as $ts): ?>
-                     <option value="<?php echo $ts->getId(); ?>"><?php echo $ts->getNombre(); ?></option>
+                     <?php foreach ($t as $ts): ?>
+                        <option value="<?php echo $ts->getId(); ?>"><?php echo $ts->getNombre(); ?></option>
                      <?php endforeach; ?>
                   </select>
                </td>
 
-               <td>Ciclo</td>
+               <td>Ciclo <strong class="required">*</strong></td>
                <td>
                   <select id="ciclo">
-                    <option value="">Seleccione</option>
-                     <?php foreach($c as $cs): ?>
-                     <option value="<?php echo $cs->getId(); ?>"><?php echo $cs->getNombre(); ?></option>
+                     <option value="">Seleccione</option>
+                     <?php foreach ($c as $cs): ?>
+                        <option value="<?php echo $cs->getId(); ?>"><?php echo $cs->getNombre(); ?></option>
                      <?php endforeach; ?>
                   </select>
                </td>
 
-               <td>Bloques</td>
+               <td>Bloques <strong class="required">*</strong></td>
                <td>
                   <select id="bloques">
                      <option value="">Seleccione</option>
-                     <?php foreach($bxf as $bxfs): ?>
-                     <option value="<?php echo $bxfs->getId(); ?>"><?php echo $bxfs->getNombre(); ?></option>
+                     <?php foreach ($bxf as $bxfs): ?>
+                        <option value="<?php echo $bxfs->getId(); ?>"><?php echo $bxfs->getNombre(); ?></option>
                      <?php endforeach; ?>
                   </select>
                </td>
 
                <td></td>
-               <td>
-                  <a href="" class="btn btn_black">&nbsp;&nbsp;Siguiente</a>
+               <td></td>
+            </tr>
+            <tr id="session">
+               <td colspan="8">
+
+                  <table cellspacing="0" cellpadding="0" style="width: 300px;border: 1px solid #F1F1F1">
+                     <thead>
+                     <tr>
+                        <th colspan="5">
+                     <h3 style="color:white">Datos de siembra</h3>
+                        </th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     <tr>
+                        <td>Cantidad</td>
+                        <td><input type="text" id="cantidad" /></td>
+                        <td>Operario</td>
+                        <td>
+                           <input type="text" id="operario" />
+                           <input type="hidden" id="operario_" />
+                           <input type="hidden" id="tipo"/>
+                           <div id="operario_show">
+                           </div>
+                        </td>
+                        <td>
+                           <a href="#addTosession" id="addToSession" class="btn btn_black">&nbsp;&nbsp;Agregar</a>
+                           <input type="hidden" id="idareaxbloque" />
+<!--                           <input type="hidden" id="idbloque" />-->
+                        </td>
+                     </tr>
+                     </tbody>
+                  </table>
+                  
+                  <table cellspacing="0" cellpadding="0" style="width: 588px;" id="showSession">
+                     
+                  </table>
+                  
+
                </td>
             </tr>
          </table>
-         
-         <table>
-            <tr>
-               <td><strong>Bloque 1:</strong></td>
-            </tr>
-         </table>
-         
-         <table cellpadding="0" cellspacing="0" border="0">
-            <thead>
-               <tr>
-                  <td colspan="6">
-                     Camas
-                  </td>
-               </tr>
-               <tr>
-                  <th>Nombre</th>
-                  <th>Capacidad</th>
-                  <th>Q sembrada</th>
-                  <th>% Sembrado</th>
-                  <th>Q a sembrar</th>
-                  <th>Acci&oacute;n</th>
-               </tr>
-            </thead>
-            <tbody>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td><a href="" class="btn btn_black">&nbsp;&nbsp;Editar Siembra</a></td>
-            </tbody>
-         </table>
-         
-         <table cellpadding="0" cellspacing="0" border="0">
-            <thead>
-               <tr>
-                  <td colspan="6">
-                     Bancos
-                  </td>
-               </tr>
-               <tr>
-                  <th>Nombre</th>
-                  <th>Capacidad</th>
-                  <th>Q sembrada</th>
-                  <th>% Sembrado</th>
-                  <th>Q a sembrar</th>
-                  <th>Acci&oacute;n</th>
-               </tr>
-            </thead>
-            <tbody>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td></td>
-               <td><a href="" class="btn btn_black">&nbsp;&nbsp;Editar Siembra</a></td>
-            </tbody>
-         </table>
+         <div id="bloquesResult">
+
+         </div>
       </div>
    </div>
 </div> <!-- #content -->
 <?php include '../includes/footer.php'; ?>
 <script type="text/javascript" src="../js/calendario_k.js"></script>
-<script type="text/javascript" src="functions.js"></script>
+<script type="text/javascript" src="functionCrear.js"></script>
+

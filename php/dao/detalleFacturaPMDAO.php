@@ -19,16 +19,15 @@ class DetalleFacturaPMDAO {
         $objFactura = $newDetalleFactura;
 
         $querty = "INSERT INTO DetalleFacturaPM
-                    (ID,IDFactura,IDVariedad,CantidadSalida,CantidadFacturada,IDTemporada,NoCamas,PrecioUnidadUSD)
+                    (IDFactura,IDVariedad,CantidadSalida,CantidadFacturada,IDTemporada,NoCamas,PrecioUnidadUSD)
                     VALUES(
-                    null,
-                    \"" . $objFactura->getIdFactura() . "\",
-                    \"" . $objFactura->getIdVariedad() . "\",
-                    \"" . $objFactura->getCantidadSalida() . "\",
-                    \"" . $objFactura->getCantidadFacturada() . "\",
-                    \"" . $objFactura->getidTemporada() . "\",
-                    \"" . $objFactura->getNoCamas() . "\",
-                    \"" . $objFactura->getPrecioUnidadUSD() . "\"
+                    " . $objFactura->getIdFactura() . ",
+                    " . $objFactura->getIdVariedad() . ",
+                    " . $objFactura->getCantidadSalida() . ",
+                    " . $objFactura->getCantidadFacturada() . ",
+                    " . $objFactura->getidTemporada() . ",
+                    " . $objFactura->getNoCamas() . ",
+                    " . $objFactura->getPrecioUnidadUSD() . "
                    )";
 
 
@@ -112,50 +111,6 @@ class DetalleFacturaPMDAO {
         return $lista;
     }
 
-//    function getsbybuscar($campo, $tipob, $valor) {
-//        $sql = 'SELECT * from FacturasPM';
-//        $where = ' where 1=1 ';
-//        if ($campo == "todos") {
-//
-//
-//            if ($tipob == "parte") {
-//                $where .= ' and (Nombre LIKE "%' . $valor . '%" OR Nit LIKE "%' . $valor . '%")';
-//            } else {
-//                $where .= ' and (Nombre = "' . $valor . '" OR Nit= "' . $valor . '")';
-//            }
-//        } else {
-//            if ($tipob == "parte") {
-//                $where .= ' and ' . $campo . ' LIKE "%' . $valor . '%"';
-//            } else {
-//                $where .= ' and ' . $campo . ' = "' . $valor . '"';
-//            }
-//        }
-//        $sql.=$where;
-//
-//        $this->daoConnection->consulta($sql);
-//        $this->daoConnection->leerVarios();
-//        $numregistros = $this->daoConnection->numregistros();
-//
-//        $lista = array();
-//
-//        if ($numregistros == 0) {
-//            return $lista;
-//        }
-//
-//        for ($i = 0; $i < $numregistros; $i++) {
-//            $j = 0;
-//            $facturas = new FacturasPM();
-//            $facturas->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setIdDocumentosInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setFormaPago($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setObservaciones($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setFacturado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setIdUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setFechaRegistro($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $lista[$i] = $facturas;
-//        }
-//        return $lista;
-//    }
 
     function delete($id) {
 
@@ -163,37 +118,6 @@ class DetalleFacturaPMDAO {
         return $this->daoConnection->consulta($sql5);
     }
 
-//    function update($newFacturas) {
-//        
-//        $objFacturas = new FacturasPM();
-//        $objFacturas = $newFacturas;
-//
-//        $querty = "UPDATE
-//                    FacturasPM
-//                    SET
-//						Nombre =
-//                        \"" . $Empresas->getNombre() . "\",
-//						Nit =
-//                        \"" . $Empresas->getNit() . "\",
-//						EsProveedor =
-//                        \"" . $Empresas->getEsProveedor() . "\",
-//						EsCliente =
-//                        \"" . $Empresas->getEsCliente() . "\",
-//						EsFinca =
-//                        \"" . $Empresas->getEsFinca() . "\",
-//						Habilitado =
-//                        \"" . $Empresas->getHabilitado() . "\"                       
-//                    WHERE ID =
-//                    " . $Empresas->getId() . "
-//                    ";
-//        $result = $this->daoConnection->consulta($querty);
-//        if (!$result) {
-//            echo 'Ooops (updateFacturas): ' . mysql_error();
-//            return false;
-//        }
-//
-//        return true;
-//    }
 
     function total() {
 
@@ -204,6 +128,70 @@ class DetalleFacturaPMDAO {
         $this->daoConnection->leerVarios();
 
         return $this->daoConnection->ObjetoConsulta2[0][0];
+    }
+    
+    
+    function getByIdFactura($idFactura) {
+
+        $sql = "SELECT * from DetalleFacturaPM WHERE IDFactura = $idFactura";
+
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        if ($numregistros == 0) {
+            return null;
+        }
+
+        $i = 0;
+        $j = 0;
+        $facturas = new DetalleFacturaPM();
+        $facturas->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setIdFactura($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setIdVariedad($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setCantidadSalida($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setCantidadFacturada($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setIdTemporada($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setNoCamas($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $facturas->setPrecioUnidadUSD($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        return $facturas;
+    }
+    
+    
+    function getByIdFacturaAll($idFactura) {
+
+        $sql = "SELECT * from DetalleFacturaPM WHERE IDFactura = $idFactura";
+
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        $lista = array();
+
+        if ($numregistros == 0) {
+            return $lista;
+        }
+
+        for ($i = 0; $i < $numregistros; $i++) {
+            $j = 0;
+            $facturas = new DetalleFacturaPM();
+            $facturas->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setIdFactura($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setIdVariedad($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setCantidadSalida($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setCantidadFacturada($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setIdTemporada($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setNoCamas($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $facturas->setPrecioUnidadUSD($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $lista[$i] = $facturas;
+        }
+        return $lista;
+    }
+    
+    function update($id,$cantidadFactura,$idTemporada,$noCamas,$precioUnidad){
+       $sql = "UPDATE DetalleFacturaPM SET CantidadFacturada = $cantidadFactura,IDTemporada = $idTemporada,NoCamas = $noCamas,PrecioUnidadUSD = $precioUnidad WHERE ID = $id";
+       
+       $this->daoConnection->consulta($sql);
     }
 
 }

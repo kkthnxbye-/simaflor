@@ -138,6 +138,26 @@ class areaspmxbloquepmDAO {
         return $lista;
     }
 	
+      function getAreas($bloque){
+         $sql = 'select distinct IDTipoArea from areasPMxbloquepm where idbloque = '.$bloque;
+         $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+        $lista = array();
+        if($numregistros == 0){
+           return $lista;
+        }else{
+           for ($i = 0; $i < $numregistros; $i++) {
+            $j = 0;
+			
+			$AreasPMXBloquePM = new areaspmxbloquepm();
+			$AreasPMXBloquePM->setIdTipoArea($this->daoConnection->ObjetoConsulta2[$i][$j]);
+            $lista[$i] = $AreasPMXBloquePM;
+        }
+        return $lista;
+        }
+      }
+      
 	function getsbybuscar($bloque,$campo,$tipob,$valor){
 	$sql = 'SELECT AreasBloque.ID, BloquesFinca.Nombre AS Bloque, TiposArea.Nombre AS Area, AreasBloque.Codigo, AreasBloque.Nombre, AreasBloque.Capacidad, AreasBloque.AreaDeCultivo, AreasBloque.AreaDeCamino, AreasBloque.Habilitado FROM AreasPMXBloquePM AS AreasBloque	JOIN BloquesPMXFinca AS BloquesFinca ON BloquesFinca.ID = AreasBloque.IDBloque JOIN TiposAreaPM AS TiposArea ON TiposArea.ID = AreasBloque.IDTipoArea';
 	
@@ -175,7 +195,7 @@ class areaspmxbloquepmDAO {
 		}			
 	}
 	$sql.=$where;
-	
+	//echo $sql;
 	$this->daoConnection->consulta($sql);
         $this->daoConnection->leerVarios();
         $numregistros = $this->daoConnection->numregistros();

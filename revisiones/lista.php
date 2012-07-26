@@ -218,7 +218,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
                                 </td>
                                 <td>
 
-                                    <a href="revision_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar" id="id_popup">
+                                    <a href="revision_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar id_popup">
                                         <div class="icon_botn">
                                             <img src="../images/page_white_go.png" width="16" height="16" />
                                         </div> 
@@ -226,7 +226,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
                                     </a>
 
         <?php if ($modificar == 1): ?>
-                                        <a href="revision_editar.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar" id="id_popup">
+                                        <a href="revision_editar.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar id_popup" >
                                             <div class="icon_botn">
                                                 <img src="../images/pencil.png" width="16" height="16" />
                                             </div> 
@@ -235,7 +235,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
 
         <?php endif; ?>
 
-                                    <a href="notas_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar" id="id_popup">
+                                    <a href="notas_crear.php?pedido_id=<?= $pedido->getId(); ?>&banB=7" class="btn_editar id_popup">
                                         <div class="icon_botn">
                                             <img src="../images/editar.png" height="20" />
                                         </div> 
@@ -258,7 +258,7 @@ if (!empty($_SESSION['fincaproduccion'])) {
 </div> <!-- #content -->	
 
 <script>
-    $('#id_popup').openDOMWindow({ 
+    $('.id_popup').openDOMWindow({ 
              height:500, 
              width: 1150, 
              positionType:'absolute', 

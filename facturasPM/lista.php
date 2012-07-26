@@ -123,7 +123,9 @@ $movimientoInventario = $movimientoInventarioDAO->getSearchFactu($_SESSION['all'
                 <div class="icon_botn" style="height:25px; width:10px">&nbsp;</div>
                 <a href="lista.php?page_bus=2" class="btn_editar l">
 
-                    <div class="icon_botn" style="height:25px;"><img src="../images/icon_null.png" width="22" height="25" /></div>
+                    <div class="icon_botn" style="height:25px;">
+                        <img src="../images/icon_null.png" width="22" height="25" />
+                    </div>
 
                     Limpiar Filtro
 
@@ -167,45 +169,38 @@ $movimientoInventario = $movimientoInventarioDAO->getSearchFactu($_SESSION['all'
                 <tbody>
                     <?php
                     foreach ($movimientoInventario as $item):
-                        if ($item->getHabilitado() == 1):
+                        if ($movimientoInventarioDAO->getByIdDocumento($item->getId())->getHabilitado() == 1):
                             ?>
                             <tr class="odd gradeX">
                                 <td><?= $item->getId() ?></td>
                                 <td><?= $tipoMovimientoDAO->getById($item->getIdTipoMovimientoInventarioPM())->getNombre() ?></td>
-                                <td><?= $item->getFechaRegistro() ?></td>
-                                <td><?php
-                            if ($item->getIdCliente() != null) {
-                                echo $empresasDAO->getById($item->getIdCliente())->getNombre();
-                            }
-                            ?></td>
-                                <td><?php
-                            if ($facturasPMDAO->getByIdDocumento($item->getIdDocumentoInventarioPM()) == null) {
-                                echo "No";
-                            } else {
-                                echo "Si";
-                            }
-                            ?></td>
-                                <td><?= $documentosDAO->getOne($item->getIdDocumentoInventarioPM())->getConsecutivo() ?></td>
+                                <td><?php $fecha = explode(" ", $item->getFecha());echo $fecha[0]; ?></td>
+                                <td><?php if ($item->getIdFinca() != null) { echo $empresasDAO->getById($item->getIdFinca())->getNombre();} ?></td>
+                                <td><?php if ($facturasPMDAO->getByIdDocumento($item->getId()) == null){echo "No";}else{echo "Si";} ?></td>
+                                <td><?= $item->getConsecutivo() ?></td>
 
                                 <td>
-                                    <a href="#" class="btn_editar">
-
+                                    <?php if ($facturasPMDAO->getByIdDocumento($item->getId()) == null): ?>
+                                    <a  href="facturar.php?id=<?= $item->getId() ?>" class="btn_editar">
                                         <div class="icon_botn"><img src="../images/editar.png" width="22" height="23" /></div>
-
-                                        Editar
+                                        Facturar
                                     </a>
-                                    <a onClick="return confirma(this)" href="#" class="btn_editar">
-
-                                        <div class="icon_botn"><img src="../images/editar.png" width="22" height="23" /></div>
-
-                                        Anular
+                                    <?php endif; ?>
+                                    <?php if ($facturasPMDAO->getByIdDocumento($item->getId()) != null): ?>
+                                    <a href="editar.php?id=<?= $item->getId() ?>" class="btn_editar">
+                                        <div class="icon_botn"><img src="../images/pencil.png" width="18" /></div>
+                                        &nbsp;Editar
                                     </a>
-                                    <a  href="#" class="btn_black">
+                                    
+                                    
+                                    <a onClick="return confirmaAnula(this)" href="../php/action/facturaAnular.php?id=<?= $item->getId() ?>" class="btn_black">
 
                                         <div class="icon_botn"><img src="../images/icon_close.png" width="22" height="23" /></div>
 
-                                        Facturar
+                                        Anular
                                     </a>
+                                    <?php endif; ?>
+                                    
                                 </td>
                             </tr>
                             <?php

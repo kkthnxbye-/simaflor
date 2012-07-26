@@ -274,6 +274,32 @@ class configuracionxvariedadDAO {
 
         return $configuracionxvariedad;
     }
+    
+    function getsDiaErradicacion($id) {
+
+        $sql = 'SELECT * from ConfiguracionXVariedad WHERE IDTipoConfiguracionVariedad = 4 and IDVariedad =' . $id;
+        //echo $sql;
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        //$lista = array();
+        $configuracionxvariedad = new configuracionxvariedad();
+        if ($numregistros == 0) {
+            return $configuracionxvariedad;
+        }
+
+        $i = 0;
+        $j = 0;
+
+
+        $configuracionxvariedad->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $configuracionxvariedad->setIdVariedad($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $configuracionxvariedad->setIdTipoConfVariedad($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $configuracionxvariedad->setValor($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+
+        return $configuracionxvariedad;
+    }
 
 }
 

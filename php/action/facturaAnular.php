@@ -13,45 +13,32 @@ include '../functions/text2HTML.php';
 include '../functions/QuotesToQuote.php';
 
 
-include '../dao/revisionesDAO.php';
-include '../entities/revisiones.php';
+include_once '../dao/movimientosInventarioDAO.php';
+include_once '../entities/movimientosInventarioPM.php';
+include_once '../dao/facturasPMDAO.php';
+include_once '../entities/facturasPM.php';
+include_once '../dao/inventariosPMDAO.php';
+include_once '../entities/inventariosPM.php';
 
+$id = $_GET['id'];
 
+$movimientoInventarioDAO = new MovimientosInventarioDAO();
+$movimientoInventario = new movimientosInventarioPM();
+$inventarioDAO = new InventariosPMDAO();
+$facturaDAO = new FacturasPMDAO();
 
-$revisionesDAO = new RevisionesDAO();
-$revisiones = new Revisiones();
+$movimientoInventario = $movimientoInventarioDAO->getByIdDocumentoAll($id);
 
-
-foreach ($_POST as $key => $value) {
-    $$key = accents2HTML(QuotesToQuote($value));
+foreach ($movimientoInventario as $item) {
+    $saldo = $inventarioDAO->getById($item->getIdInventarioPM())->getSaldo()+$item->getCantidad();
+    $inventarioDAO->updateSaldo($item->getIdInventarioPM(), $saldo);
 }
 
-$cont = 1;
+$movimientoInventarioDAO->updateEstadoFactura($id);
+$facturaDAO->updateEstadoFactura($id);
 
-for ($i = 1; $i <= $canTotal; $i++) {
-
-    
-    
-    
-    $revisiones->setId($_POST["id{$i}"]);
-    $revisiones->setCantidad($_POST["cant{$i}"]);
-    $revisiones->setIdOperario($_POST["idOperario{$i}"]);
-    $revisiones->setEstaBueno($_POST["estado{$i}"]);
-    $revisiones->setIdCausaNacional($_POST["idCausaNacional{$i}"]);
-    $revisiones->setDesechado($_POST["desechado{$i}"]);
-    $revisiones->setHabilitado($_POST["habilitado{$i}"]);
-    
-    $revisionesDAO->update($revisiones);
-    
-    
-    if(!$revisionesDAO->update($revisiones)){$cont++;}
-    
-}
-
-if($cont == 1){echo "1";}
-
-
-
+header("location: ../../facturasPM/lista.php?ok");
+exit();
 
 
 

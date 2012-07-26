@@ -1,44 +1,56 @@
 <?php
 session_start();
 require_once '../php/clases.php';
-include '../php/dao/revisionesDAO.php';
-include '../php/entities/revisiones.php';
+require_once '../php/dao/VariedadesDAO.php';
+require_once '../php/entities/Variedades.php';
+require_once '../php/dao/movimientosInventarioDAO.php';
+require_once '../php/entities/movimientosInventarioPM.php';
 
-$operariosDAO = new operariosDAO();
-$operarios = new operarios();
-$causasDAO = new causasnacionalDAO();
-$causas = new causasnacional();
+$id = $_POST['id'];
+$idUsuario = $_POST['idUsuario'];
 
-$revisionesDAO = new RevisionesDAO();
-$revisiones = new Revisiones();
+$productosDAO = new productosDAO();
+$temporadasDAO = new temporadasDAO();
+$temporadas = new temporadas();
+$VariedadesDAO = new VariedadesDAO();
+$Variedades = new Variedades();
 
-$idPedido = $_POST['pedido_id'];
+$temporadas = $temporadasDAO->gets();
 
-$causas = $causasDAO->gets();
-$operarios = $operariosDAO->gets();
-$revisiones = $revisionesDAO->getRevisionesByIdPerdido($idPedido);
+$Variedades = $VariedadesDAO->getVariedadesForFactura($id);
 ?>
 
 
 <form  id="lista_edit" onsubmit="return false;">
+    <div style="margin: 7px auto auto 10px ">
+        <label>Formato de pago:</label>
+        <input type="text" name="formaPago">
+        <br><br>
+        <label>Observaciones:</label>
+        <input type="text" name="observaciones" size="70">
+        <br><br>
+    </div>
+
     <table cellpadding="0" cellspacing="0" border="0" class="display" rel="datatable" id="example">
 
         <thead>
 
             <tr>
-                <th>ID</th>
+                <th>Producto</th>
 
-                <th>Cantidad</th>
+                <th>Variedad</th>
 
-                <th>Operario</th>
+                <th>Salida</th>
 
-                <th>Estado</th>
+                <th>Cantidad Factura</th>
 
-                <th>Causa</th>
+                <th>Excedente</th>
 
-                <th>Reclamar</th>
+                <th>Fiesta</th>
 
-                <th>Habilitado</th>
+                <th>Numero camas</th>
+
+                <th>Precio unidad (USD)</th>
 
             </tr>
 
@@ -47,85 +59,78 @@ $revisiones = $revisionesDAO->getRevisionesByIdPerdido($idPedido);
         <tbody>
 
 
-            <?php $cont = 1;
-            foreach ($revisiones as $item): ?>
+            <?php
+            $cont = 1;
+            foreach ($Variedades as $item):
+                ?>
 
                 <tr class="odd gradeX">
 
-                    <td><input type="hidden" value="<?= $item->getId() ?>" name="id<?= $cont ?>" ><?= $item->getId() ?></td>
-
-                    <td><input type="text" value="<?= $item->getCantidad() ?>" name="cant<?= $cont ?>" ></td>
-
                     <td>
-                        <select size="1" class="medium"  name="idOperario<?= $cont ?>">
-
-                            <?php foreach ($operarios as $itemOpe): ?>
-                                <option value="<?= $itemOpe->getId() ?>" <?php if ($itemOpe->getId() == $item->getIdOperario()) {
-                            echo 'selected';
-                        } ?> ><?= $itemOpe->getNombre() ?></option>
-    <?php endforeach; ?>
-                        </select>
+                        <?= $productosDAO->getById($item->getIdProducto())->getNombre() ?>
+                        <input type="hidden" name="idProducto<?= $cont ?>" value="<?= $item->getIdProducto() ?>">
                     </td>
 
                     <td>
-                        <select size="1" class="medium" name="estado<?= $cont ?>">
-                            <option value="1" <?php if ($item->getEstaBueno() == 1) {
-        echo "selected";
-    } ?>>Bueno</option>
-                            <option value="0" <?php if ($item->getEstaBueno() == 0) {
-        echo "selected";
-    } ?>>Malo</option>
-                        </select>
+                        <?= $item->getNombre() ?>
+                        <input type="hidden" name="idVariedad<?= $cont ?>" value="<?= $item->getId() ?>">
                     </td>
 
                     <td>
-                        <select size="1" class="medium" name="idCausaNacional<?= $cont ?>">
-    <?php foreach ($causas as $itemCau): ?>
-                                <option value="<?= $itemCau->getId() ?>" <?php if ($itemCau->getId() == $item->getIdCausaNacional()) {
-            echo 'selected';
-        } ?>><?= $itemCau->getNombre() ?></option>
-    <?php endforeach; ?>
-                        </select>
+                        <?= $item->getCantidad() ?>
+                        <input type="hidden" name="cantidadSalida<?= $cont ?>" id="cantidadSalida<?= $cont ?>" value="<?= $item->getCantidad() ?>">
                     </td>
 
                     <td>
-                        <select size="1" class="medium" name="desechado<?= $cont ?>">
-                            <option value="1" <?php if ($item->getDesechado() == 1) {
-        echo "selected";
-    } ?>>Si</option>
-                            <option value="0" <?php if ($item->getDesechado() == 0) {
-        echo "selected";
-    } ?>>No</option>
-                        </select>
+                        <strong style="color: red">*</strong>
+                        <input type="text" name="cantidadFacturada<?= $cont ?>" 
+                               onchange="if(parseInt(this.value) <= parseInt($('#cantidadSalida<?= $cont ?>').val())){ exc = $('#cantidadSalida<?= $cont ?>').val()-this.value; $('#excedente<?= $cont ?>').val(exc);$('#excedenteh<?= $cont ?>').val(exc);}else{ $(function(){  msn.error().mostrar('La cantidad facturada no puede ser mayor a la cantidad de salida.');  }); }" required>
                     </td>
 
                     <td>
-                        <select size="1" class="medium"  name="habilitado<?= $cont ?>">
-                            <option value="1" <?php if ($item->getHabilitado() == 1) {
-                echo "selected";
-            } ?>>Si</option>
-                            <option value="0" <?php if ($item->getHabilitado() == 0) {
-                echo "selected";
-            } ?>>No</option>
+                        <input type="text" name="excedente<?= $cont ?>" id="excedente<?= $cont ?>" value="0" style="border: none;" disabled>
+                        <input type="hidden" name="excedenteh<?= $cont ?>" id="excedenteh<?= $cont ?>">
+                    </td>
+                    <td><strong style="color: red">*</strong>
+                        <select name="fiesta<?= $cont ?>">
+                            <option value="0">Seleccione</option>
+                            <?php foreach ($temporadas as $value): ?>
+                                <option value="<?= $value->getId() ?>"><?= $value->getNombre() ?></option>
+                            <?php endforeach; ?>
                         </select>
+                    </td>
+                    <td>
+                        <strong style="color: red">*</strong>
+                        <input type="text" name="noCamas<?= $cont ?>" required >
+                    </td>
+                    <td>
+                        <strong style="color: red">*</strong>
+                        <input type="text" name="precioUnidad<?= $cont ?>" required >
                     </td>
 
                 </tr>
-        <input type="hidden" name="canTotal" value="<?= $cont ?>">
-        
 
-    <?php $cont++;
-endforeach; ?>
+
+
+                <?php
+                $cont++;
+            endforeach;
+            ?>
 
         </tbody>
 
     </table>
-
+    <input type="hidden" name="idDocumentoInventario" value="<?= $id ?>">
+    <input type="hidden" name="idUsuario" value="<?= $idUsuario; ?>">
+    <input type="hidden" name="canTotal" value="<?= $cont - 1 ?>">
 
     <button type="submit" class="btn btn-grey" style="margin: 15px 8px 8px 8px" >Guardar</button>
+    <button class="btn btn-black" type="button" onclick="location.href='lista.php'">Cancelar</button>
 </form>
 
 <script>
+    
+    
     $(function(){
         $(document).on('submit', '#lista_edit', function(e){
             e.preventDefault();
@@ -133,17 +138,11 @@ endforeach; ?>
             var data = $(this).serialize();
                             
             $.ajax({
-                url:'../php/action/revisionesEdit.php',
+                url:'../php/action/facturaAdd.php',
                 type:'POST',
                 data: data,
                 success:function(resp){
-                                
-                    if(resp == 1){
-                        $(function(){  msn.ok().mostrar('Proceso Exitoso.');  }); 
-                        carga_lista_detalle_edit();
-                    }else{
-                        $(function(){  msn.error().mostrar('Ha ocurrido un error inesperado, recargue la pagina y vuelva a intentarlo es posible que el sistema no halla guardado algunos cambios.');  });
-                    }
+                    window.location='editar.php?id=<?= $id ?>&res='+resp;                                  	
                 }
             });
                             

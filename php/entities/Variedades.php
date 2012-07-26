@@ -16,6 +16,7 @@ class Variedades{
     private $descripcion;
     private $foto;
     private $habilitado;
+    private $cantidad;
     
     function __construct() {
         $this->id = 0;
@@ -27,6 +28,15 @@ class Variedades{
         $this->descripcion = "null";
         $this->foto = "null";
         $this->habilitado = "null";
+        $this->cantidad = 0;
+    }
+    
+    public function getCantidad() {
+        return $this->cantidad;
+    }
+
+    public function setCantidad($cantidad) {
+        $this->cantidad = $cantidad;
     }
 
     public function getId() {

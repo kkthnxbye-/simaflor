@@ -136,7 +136,7 @@ if ($url != "index/index2.php") {
                            },
                            mostrar : function(msg){
                                    var self = this;
-                                   this.obj.empty();
+                        this.obj.empty();
                                    this.obj.wrapInner(function(){
                                            return '<p>'+msg+'</p>';
                                    }).prependTo('body').fadeIn();
@@ -199,10 +199,34 @@ if (isset($_REQUEST['inf'])) {
     echo "$(function(){  msn.info().mostrar('Por favor haga las selecciones pertinentes de la(s) lista(s).');  });";
 }
 ?>
+<?php
+if ($_GET['res'] == 1) {
+    echo "$(function(){  msn.ok().mostrar('Proceso Exitoso.');  }); ";
+}if ($_GET['res'] == 2) {
+    echo "$(function(){  msn.error().mostrar('Recuerde que los campos marcados (*) son obligatorios.');  });";
+}if ($_GET['res'] == 3) {
+    echo "$(function(){  msn.error().mostrar('Tenga cuidado, esta digitando texto en campos numericos.');  });";
+}if ($_GET['res'] > 3) {
+    echo "$(function(){  msn.error().mostrar('Ha ocurrido un error inesperado, recargue la pagina y vuelva a intentarlo es posible que el sistema no halla guardado algunos cambios.');  });";
+}
+?>
+    
+   
             
 
     function confirma(formObj) { 
         if(!confirm("Si elimina este ítem no hay forma de devolver esta acción. Si desea \ncontinuar Click en Aceptar, Si no Click en Cancelar")) { 
+            return false;
+        }else{
+            if(!confirm("¿Está seguro de realizar esta acción?")){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    function confirmaAnula(formObj) { 
+        if(!confirm("Este procedimiento devolverá las piezas al inventario y no se puede deshacer.")) { 
             return false;
         }else{
             if(!confirm("¿Está seguro de realizar esta acción?")){
@@ -234,86 +258,86 @@ if (isset($_REQUEST['inf'])) {
 
 
 
-<?php if ($_GET['banB'] != 7): ?>
-        <div id="wrapper">
+        <?php if ($_GET['banB'] != 7): ?>
+            <div id="wrapper">
 
 
 
-            <div id="header">
+                <div id="header">
 
-                <div class="logo"><img src="../images/logo.png" width="320" height="95" alt="Logo.png" /></div>
+                    <div class="logo"><img src="../images/logo.png" width="320" height="95" alt="Logo.png" /></div>
 
-                <div id="info">
+                    <div id="info">
 
-                    <div class="info_user">
-                        <div style="font-size: 11px">
-                            <b>Usuario:</b><br> <?php echo $usuario->getNombre(); ?>
+                        <div class="info_user">
+                            <div style="font-size: 11px">
+                                <b>Usuario:</b><br> <?php echo $usuario->getNombre(); ?>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="info_date">
-
+                        <div class="info_date">
 
 
-                        <form method="post" class="form label-inline" aling="left" id="form_fincas">
 
-                            <div class="field">
+                            <form method="post" class="form label-inline" aling="left" id="form_fincas">
 
-                                <!--                                <label for="type">Finca</label>
-                                
-                                                                <select size="1" name="finca" class="finca" id="finca" id="type" onchange="document.getElementById('form_fincas').submit();">
-                                                                    <option value="-1" <?php //if ($_SESSION['finca'] == "-1") {      ?> selected="selected"<?php //}      ?>>Seleccione</option>
-                                <?php
+                                <div class="field">
+
+                                    <!--                                <label for="type">Finca</label>
+                                    
+                                                                    <select size="1" name="finca" class="finca" id="finca" id="type" onchange="document.getElementById('form_fincas').submit();">
+                                                                        <option value="-1" <?php //if ($_SESSION['finca'] == "-1") {       ?> selected="selected"<?php //}       ?>>Seleccione</option>
+                                    <?php
 //foreach ($lista_dinc as $finc) {
 //if ($finc->getHabilitado() == 1) {
-                                ?>
-                                
-                                                                            <option value="<?php //echo $finc->getId();      ?>" <?php //if ($_SESSION['finca'] == $finc->getId()) {      ?> selected="selected"<?php //}      ?>><?php //echo $finc->getNombre()      ?></option>
-                                
-                                <?php
+                                    ?>
+                                    
+                                                                                <option value="<?php //echo $finc->getId();       ?>" <?php //if ($_SESSION['finca'] == $finc->getId()) {       ?> selected="selected"<?php //}       ?>><?php //echo $finc->getNombre()       ?></option>
+                                    
+                                    <?php
 //}
 //}
-                                ?>
-                                
-                                                                </select>-->
-                                <!--
-                                   When you were a young girl i took you into the city, i said when you grow up would you be the most nice woman
-                                   i said will you ya defeat them your demons and all the none belieavers the plans that they had made, coz
-                                   one day ill leave ya a phanton to leade ya in the summah to join the black parade!!!
-                                
-                                   Sometimes you'll have the feeling im watching oveah you and otha times you;ll feel like you should go ....
-                                
-                                -->
-                            </div>
+                                    ?>
+                                    
+                                                                    </select>-->
+                                    <!--
+                                       When you were a young girl i took you into the city, i said when you grow up would you be the most nice woman
+                                       i said will you ya defeat them your demons and all the none belieavers the plans that they had made, coz
+                                       one day ill leave ya a phanton to leade ya in the summah to join the black parade!!!
+                                    
+                                       Sometimes you'll have the feeling im watching oveah you and otha times you;ll feel like you should go ....
+                                    
+                                    -->
+                                </div>
 
-                        </form>
+                            </form>
+
+                        </div>
+
+
+
+                        <div class="info_out"><button class="btn btn-black" onclick="location.href='../salir.php'">Salir</button></div>
+
+
 
                     </div>
 
 
-                    
-                        <div class="info_out"><button class="btn btn-black" onclick="location.href='../salir.php'">Salir</button></div>
-                    
-
-
-                </div>
 
 
 
 
 
-
-
-            </div> 
-            
-            
-
-            <!-- #info -->
+                </div> 
 
 
 
-        </div> <!-- #header -->	
-<?php endif; ?>
+                <!-- #info -->
+
+
+
+            </div> <!-- #header -->	
+        <?php endif; ?>
         <!--<ul class="mega-container mega-grey">
                         <li class="mega">
                             <a href="#" class="mega-link">Maestros</a>					
@@ -333,11 +357,11 @@ if (isset($_REQUEST['inf'])) {
 //        $modulo = $obj_opt->getIdModulo();
 //        $obj_modulo = $modulosDAO->getById($modulo);
         ?>
-                                <li><a href="javascript:;" class="hasSub"><?php //echo $obj_modulo->getNombre()      ?></a>	
+                                <li><a href="javascript:;" class="hasSub"><?php //echo $obj_modulo->getNombre()       ?></a>	
                                    <ul>
         <?php //}  ?>
                                             <li>
-                                               <a href="../<?php //echo $obj_opt->getUrlMenu()    ?>">
+                                               <a href="../<?php //echo $obj_opt->getUrlMenu()     ?>">
         <?php //echo $obj_opt->getNombre() ?>
                                                </a>
                                             </li>

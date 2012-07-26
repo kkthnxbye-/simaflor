@@ -26,11 +26,11 @@ class MovimientosInventarioDAO {
                     " . $newMovimientoInventario->getIdTipoMovimientoInventarioPM() . ",
                     " . $newMovimientoInventario->getIdCliente() . ",
                     " . $newMovimientoInventario->getCantidad() . ",
-                    '" . $newMovimientoInventario->getFechaRegistro() ."',
+                    '" . $newMovimientoInventario->getFechaRegistro() . "',
                     " . $newMovimientoInventario->getIdUsuario() . ",
                     " . $newMovimientoInventario->getIdDocumentoInventarioPM() . ",
                     " . $newMovimientoInventario->getHabilitado() . ");";
-        
+
         $result = $this->daoConnection->consulta($querty);
         if (!$result) {
             return false;
@@ -69,22 +69,22 @@ class MovimientosInventarioDAO {
         $newMovimientoInventario->setHabilitado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
         return $newMovimientoInventario;
     }
-    
+
     function getByIdInventario($id) {
 
-        $sql = "SELECT * from dbo.MovimientosInventarioPM WHERE IdInventarioPM = $id";
+        $sql = "SELECT * FROM MovimientosInventarioPM WHERE IdInventarioPM = $id";
 
         $this->daoConnection->consulta($sql);
         $this->daoConnection->leerVarios();
         $numregistros = $this->daoConnection->numregistros();
-        
+
         $lista = array();
-        
+
         if ($numregistros == 0) {
             return $lista;
         }
-        
-        
+
+
 
         for ($i = 0; $i < $numregistros; $i++) {
             $j = 0;
@@ -135,8 +135,8 @@ class MovimientosInventarioDAO {
         }
         return $lista;
     }
-    
-    function getsfiltro($campo,$tipo,$valor,$fincaproduccion,$tipoMov,$fecha,$cliente) {
+
+    function getsfiltro($campo, $tipo, $valor, $fincaproduccion, $tipoMov, $fecha, $cliente) {
 
         $sql = 'SELECT m.id,m.idinventariopm,m.idtipomovimientoinventariopm,m.idcliente,
 m.cantidad,m.fecharegistro,m.idusuario,m.iddocumentoinventariopm,m.habilitado,
@@ -147,34 +147,34 @@ t.id,i.id,t.suma
                WHERE i.id = m.idInventarioPM AND 
                      t.id = m.IDTipoMovimientoInventarioPM AND
                      t.suma = 0';
-        
-        if($tipoMov != ''){
-           $sql.=' AND m.IDTipoMovimientoInventarioPM = '.$tipoMov.' ';
+
+        if ($tipoMov != '') {
+            $sql.=' AND m.IDTipoMovimientoInventarioPM = ' . $tipoMov . ' ';
         }
-        
-        if($fecha != ''){
-           $fecha = str_replace('/','-',$fecha);
-           $sql.=" AND m.FechaRegistro = '$fecha' ";
+
+        if ($fecha != '') {
+            $fecha = str_replace('/', '-', $fecha);
+            $sql.=" AND m.FechaRegistro = '$fecha' ";
         }
-        
-        if($cliente != ''){
-           $sql.=' AND m.IDCliente = '.$cliente.' ';
+
+        if ($cliente != '') {
+            $sql.=' AND m.IDCliente = ' . $cliente . ' ';
         }
-        
-        if($fincaproduccion != ''){
-           $sql.=' AND i.IDFincaProduccion = '.$fincaproduccion;
+
+        if ($fincaproduccion != '') {
+            $sql.=' AND i.IDFincaProduccion = ' . $fincaproduccion;
         }
-        
-        if($campo == "todos"){
-           
-        }else{
-           if($tipo == "%"){
-              $sql.=' AND '.$campo.' = '.$valor;
-           }else{
-              
-           }
+
+        if ($campo == "todos") {
+            
+        } else {
+            if ($tipo == "%") {
+                $sql.=' AND ' . $campo . ' = ' . $valor;
+            } else {
+                
+            }
         }
-        
+
         //echo $sql;
 
         $this->daoConnection->consulta($sql);
@@ -202,19 +202,18 @@ t.id,i.id,t.suma
             $newMovimientoInventario->setIdTipoMovimientoInventario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
             $newMovimientoInventario->setIdInventario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
             $newMovimientoInventario->setSuma($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-            
+
             $lista[$i] = $newMovimientoInventario;
         }
         return $lista;
     }
-    
+
     function delete($id) {
 
         $sql = "Delete from dbo.MovimientosInventarioPM WHERE ID = $id";
 
         $this->daoConnection->consulta($sql);
     }
-
 
     function total() {
 
@@ -226,31 +225,96 @@ t.id,i.id,t.suma
 
         return $this->daoConnection->ObjetoConsulta2[0][0];
     }
-    
-    function updateSome($idDocumentoInventario,$newId){
-       $sql = "UPDATE MovimientosInventarioPM SET IDDocumentoInventarioPM = ".$newId." WHERE IDDocumentoInventarioPM = ".$idDocumentoInventario;
-       $this->daoConnection->consulta($sql);
-    }
-    
-    function update($campo,$valor,$id){
-       $sql = "UPDATE MovimientosInventarioPM SET $campo = ".$valor." WHERE ID = ".$id;
-       $this->daoConnection->consulta($sql);
-    }
-    
-    
-    
-    
-    function getSearchFactu($tipo,$idTipoMovimiento,$fecha,$cliente) {
 
-        $sql = "SELECT * FROM MovimientosInventarioPM";
-        
-        if($tipo == ""){
-            $sql.= " WHERE IDTipoMovimientoInventarioPM = $idTipoMovimiento AND
-                     FechaRegistro = '$fecha' AND
-                     IDCliente = $cliente";
+    function updateSome($idDocumentoInventario, $newId) {
+        $sql = "UPDATE MovimientosInventarioPM SET IDDocumentoInventarioPM = " . $newId . " WHERE IDDocumentoInventarioPM = " . $idDocumentoInventario;
+        $this->daoConnection->consulta($sql);
+    }
+
+    function update($campo, $valor, $id) {
+        $sql = "UPDATE MovimientosInventarioPM SET $campo = " . $valor . " WHERE ID = " . $id;
+        $this->daoConnection->consulta($sql);
+    }
+
+    function updateEstadoFactura($id) {
+        $sql = "UPDATE MovimientosInventarioPM SET Habilitado = 0 WHERE IDDocumentoInventarioPM = $id";
+        $this->daoConnection->consulta($sql);
+    }
+
+    function getSearchFactu($tipo, $idTipoMovimiento, $fecha, $cliente) {
+
+        $sql = "SELECT DocumentosInventarioPM.ID,DocumentosInventarioPM.IDFinca,
+                DocumentosInventarioPM.IDTipoMovimientoInventarioPM,DocumentosInventarioPM.Consecutivo,
+                DocumentosInventarioPM.Fecha FROM DocumentosInventarioPM,TiposMovimientoInventarioPM ";
+
+        $sql.= "WHERE TiposMovimientoInventarioPM.ID = DocumentosInventarioPM.IDTipoMovimientoInventarioPM";
+
+        if ($tipo == "") {
+            $sql.= " AND DocumentosInventarioPM.IDTipoMovimientoInventarioPM = $idTipoMovimiento AND
+                     DocumentosInventarioPM.Fecha = '$fecha' AND
+                     DocumentosInventarioPM.IDFinca = $cliente";
         }
-        
-        
+
+        $sql.= " AND TiposMovimientoInventarioPM.Suma = 0";
+
+
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        $lista = array();
+
+        if ($numregistros == 0) {
+            return $lista;
+        }
+
+        for ($i = 0; $i < $numregistros; $i++) {
+            $j = 0;
+            $newMovimientoInventario = new DocumentoInventarioPM();
+
+            $newMovimientoInventario->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdFinca($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setIdTipoMovimientoInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setConsecutivo($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+            $newMovimientoInventario->setFecha($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+
+
+            $lista[$i] = $newMovimientoInventario;
+        }
+        return $lista;
+    }
+
+    function getByIdDocumento($idD) {
+
+        $sql = "SELECT * FROM MovimientosInventarioPM WHERE IDDocumentoInventarioPM = $idD";
+
+        $this->daoConnection->consulta($sql);
+        $this->daoConnection->leerVarios();
+        $numregistros = $this->daoConnection->numregistros();
+
+        if ($numregistros == 0) {
+            return null;
+        }
+
+        $i = 0;
+        $j = 0;
+        $newMovimientoInventario = new movimientosInventarioPM();
+        $newMovimientoInventario->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setIdInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setIdTipoMovimientoInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setIdCliente($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setCantidad($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setFechaRegistro($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setIdUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setIdDocumentoInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        $newMovimientoInventario->setHabilitado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        return $newMovimientoInventario;
+    }
+
+    function getByIdDocumentoAll($idD) {
+
+        $sql = "SELECT * FROM MovimientosInventarioPM WHERE IDDocumentoInventarioPM = $idD";
+
         $this->daoConnection->consulta($sql);
         $this->daoConnection->leerVarios();
         $numregistros = $this->daoConnection->numregistros();
@@ -273,6 +337,7 @@ t.id,i.id,t.suma
             $newMovimientoInventario->setIdUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
             $newMovimientoInventario->setIdDocumentoInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
             $newMovimientoInventario->setHabilitado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+
 
             $lista[$i] = $newMovimientoInventario;
         }

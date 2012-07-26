@@ -19,15 +19,14 @@ class FacturasPMDAO {
         $objFactura = $newFactura;
 
         $querty = "INSERT INTO FacturasPM
-                    (ID,IDDocumentosInventarioPM,FormaPago,Observaciones,Facturado,IDusuario,FechaRegistro)
+                    (IDDocumentosInventarioPM,FormaPago,Observaciones,Facturado,IDusuario,FechaRegistro)
                     values(
-                    null,
-                    \"" . $objFactura->getIdDocumentosInventarioPM() . "\",
-                    \"" . $objFactura->getFormaPago() . "\",
-                    \"" . $objFactura->getObservaciones() . "\",
-                    \"" . $objFactura->getFacturado() . "\",
-                    \"" . $objFactura->getIdUsuario() . "\",
-                    \"" . $objFactura->getFechaRegistro() . "\"					
+                    " . $objFactura->getIdDocumentosInventarioPM() . ",
+                    '" . $objFactura->getFormaPago() . "',
+                    '" . $objFactura->getObservaciones() . "',
+                    " . $objFactura->getFacturado() . ",
+                    " . $objFactura->getIdUsuario() . ",
+                    '" . $objFactura->getFechaRegistro() . "'
                    )";
 
 
@@ -103,7 +102,9 @@ class FacturasPMDAO {
         $facturas->setFacturado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
         $facturas->setIdUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
         $facturas->setFechaRegistro($this->daoConnection->ObjetoConsulta2[$i][$j++]);
+        
         return $facturas;
+        
     }
 
     function getAll() {
@@ -136,90 +137,23 @@ class FacturasPMDAO {
     }
 
     
-
-//    function getsbybuscar($campo, $tipob, $valor) {
-//        $sql = 'SELECT * from FacturasPM';
-//        $where = ' where 1=1 ';
-//        if ($campo == "todos") {
-//
-//
-//            if ($tipob == "parte") {
-//                $where .= ' and (Nombre LIKE "%' . $valor . '%" OR Nit LIKE "%' . $valor . '%")';
-//            } else {
-//                $where .= ' and (Nombre = "' . $valor . '" OR Nit= "' . $valor . '")';
-//            }
-//        } else {
-//            if ($tipob == "parte") {
-//                $where .= ' and ' . $campo . ' LIKE "%' . $valor . '%"';
-//            } else {
-//                $where .= ' and ' . $campo . ' = "' . $valor . '"';
-//            }
-//        }
-//        $sql.=$where;
-//
-//        $this->daoConnection->consulta($sql);
-//        $this->daoConnection->leerVarios();
-//        $numregistros = $this->daoConnection->numregistros();
-//
-//        $lista = array();
-//
-//        if ($numregistros == 0) {
-//            return $lista;
-//        }
-//
-//        for ($i = 0; $i < $numregistros; $i++) {
-//            $j = 0;
-//            $facturas = new FacturasPM();
-//            $facturas->setId($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setIdDocumentosInventarioPM($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setFormaPago($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setObservaciones($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setFacturado($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setIdUsuario($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $facturas->setFechaRegistro($this->daoConnection->ObjetoConsulta2[$i][$j++]);
-//            $lista[$i] = $facturas;
-//        }
-//        return $lista;
-//    }
-
     function delete($id) {
 
         $sql5 = "Delete from FacturasPM WHERE ID = $id";
         return $this->daoConnection->consulta($sql5);
 
     }
-
-//    function update($newFacturas) {
-//        
-//        $objFacturas = new FacturasPM();
-//        $objFacturas = $newFacturas;
-//
-//        $querty = "UPDATE
-//                    FacturasPM
-//                    SET
-//						Nombre =
-//                        \"" . $Empresas->getNombre() . "\",
-//						Nit =
-//                        \"" . $Empresas->getNit() . "\",
-//						EsProveedor =
-//                        \"" . $Empresas->getEsProveedor() . "\",
-//						EsCliente =
-//                        \"" . $Empresas->getEsCliente() . "\",
-//						EsFinca =
-//                        \"" . $Empresas->getEsFinca() . "\",
-//						Habilitado =
-//                        \"" . $Empresas->getHabilitado() . "\"                       
-//                    WHERE ID =
-//                    " . $Empresas->getId() . "
-//                    ";
-//        $result = $this->daoConnection->consulta($querty);
-//        if (!$result) {
-//            echo 'Ooops (updateFacturas): ' . mysql_error();
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    
+    function updateEstadoFactura($id){
+       $sql = "UPDATE FacturasPM SET Facturado = 0 WHERE IDDocumentosInventarioPM = $id";
+       $this->daoConnection->consulta($sql);
+    }
+    
+    function update($id,$formatoPago,$observaciones,$idUsuario){
+       $sql = "UPDATE FacturasPM SET FormaPago = '$formatoPago',Observaciones = '$observaciones',IDusuario = $idUsuario WHERE ID = $id";
+       
+       $this->daoConnection->consulta($sql);
+    }
 
     function total() {
 

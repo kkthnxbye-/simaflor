@@ -12,7 +12,7 @@ $vDAO = new VariedadesDAO();
 $v = new Variedades();
 $v = $vDAO->gets('IDProducto','',$id);
 
-$options = "";
+$options = "<option value=''>Seleccione</option>";
 
 foreach($v as $vs){
    $options.="<option value='".$vs->getId()."'>".$vs->getNombre()."</option>";
